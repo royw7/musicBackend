@@ -12,7 +12,7 @@ app.get('/', (req,res)=>{
 let genres = { 
     pop: [{id: 1, name: "Say So"}, {id: 2, name: "Montero"}],
     hipHop: [{id: 1, name: "Vamp Anthem"}, {id: 2, name: "@MEH"}], 
-    rap: [{id: 1, name: "Sky"}], 
+    rap: [{id: 1, name: "Sky"}, {id:2, name:"Shoota"}], 
     classical: [{id: 1, name: "Piano Concerto No 21"}, {id: 2, name: "Toccata and Fugue in D Minor"}], 
     rock: [{id: 1, name: "Something in the Way"}, {id: 2, name: "Smells Like Teen Spirit"}], 
     jazz: [{id: 1, name: "Fly Me To The Moon"}, {id: 2, name: "At Last"}], 
@@ -88,7 +88,7 @@ app.post('/genres/:genre/', (req, res)=>{
         if(req.body.name.length > 1 && req.body.name.length < 21){
         const song = {
             id: genres[req.params.genre].length + 1,
-            name: req.body.song
+            name: req.body.name
         };
         genres[req.params.genre].push(song);
         res.send(song);
@@ -113,7 +113,7 @@ app.put('/genres/:genre/', (req, res)=>{
             res.status(400).send("Name required to update");
             return
         } 
-        if(req.body.name.length < 4){
+        if(req.body.name.length < 3){
             res.status(400).send("Name should be at least 3 characters long");
             return
         }   
@@ -126,7 +126,7 @@ app.put('/genres/:genre/', (req, res)=>{
     }
 })
 
-//deletes specific song from genre based on id
+//deletes specific song from genre based on id. Checks param, body not needed
 app.delete('/genres/:genre/:id', (req,res)=>{
     if(req.params.genre in genres){
         const song = genres[req.params.genre].find(c=>c.id === parseInt(req.params.id));
@@ -156,8 +156,6 @@ app['copy']('/genres/:genre', (req, res)=>{
 /* Reflection:
     1. Postman(local client) sends requests to localhost:3000(server), we can give our server information, in this instance they are defined in the parameter and body. 
     The server then can take this information and decides what to do with it, eg. determining it is valid and saving it, or determining the information is invalid and returning an error message.
-
     2. I learned how to use Postman and learned the basics of Express framework. 
-
     3. It would be nice to see this program fully fledged out and have a more accessible design that can be used, instead of just barebones raw data.
 */
